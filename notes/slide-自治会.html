@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自治会コミュニケーション全体像の提案</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. 全体設定 */
+        * { box-sizing: border-box; }
+        p { margin: 0; margin-bottom: 15px; }
+        body {
+            background-color: #f1f5f9;
+            display: grid;
+            gap: 32px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            min-height: 100vh;
+            padding: 40px 0;
+            place-items: center;
+        }
+
+        .slide-container {
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            font-family: 'Noto Sans JP', sans-serif;
+            height: 720px;
+            justify-content: center;
+            overflow: hidden;
+            padding: 60px 80px;
+            position: relative;
+            width: 1280px;
+            background-image: radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 0% 100%, rgba(15, 23, 42, 0.03) 0%, transparent 40%);
+        }
+
+        /* 2. タイポグラフィ */
+        .slide-container h1, .slide-container h2, .slide-container h3 {
+            color: #0f172a;
+            font-family: 'Poppins', 'Noto Sans JP', sans-serif;
+            margin: 0;
+        }
+
+        .slide-container .slide-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: left;
+            width: 100%;
+            border-left: 8px solid #3b82f6;
+            padding-left: 25px;
+            color: #1e293b;
+            letter-spacing: -0.02em;
+        }
+
+        .slide-container p, .slide-container li, .slide-container td {
+            color: #475569;
+            font-size: 19px;
+            line-height: 1.6;
+        }
+
+        .small-text {
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .content-area {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* 3. レイアウト */
+        .title-layout { text-align: center; }
+        .title-layout h1 { font-size: 68px; margin-bottom: 20px; color: #1e293b; }
+        .title-layout .subtitle { font-size: 26px; color: #64748b; font-weight: 400; }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .tiled-content {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+        }
+
+        .tile {
+            background-color: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            padding: 35px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .tile .icon {
+            color: #3b82f6;
+            font-size: 52px;
+            margin-bottom: 25px;
+        }
+
+        .tile h3 { font-size: 26px; margin-bottom: 15px; color: #334155; }
+        .tile p { font-size: 17px; margin: 0; }
+
+        .image-wrapper {
+            border-radius: 20px;
+            height: 400px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .image-wrapper img, .full-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .full-image-wrapper {
+            width: 100%;
+            height: 500px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background-color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Fallback styling when image fails */
+        .img-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-weight: bold;
+            display: none; /* Only show on error */
+        }
+
+        .bullet-list {
+            width: 100%;
+        }
+
+        .bullet-list ul { list-style: none; padding: 0; }
+        .bullet-list li {
+            position: relative;
+            padding-left: 45px;
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+
+        .bullet-list i {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            color: #3b82f6;
+            font-size: 28px;
+        }
+
+        .tag-row { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tag { padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; text-transform: uppercase; }
+        .tag-blue { background: #dbeafe; color: #1e40af; }
+
+        /* PDF印刷用スタイル */
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 0;
+                gap: 0;
+            }
+            .slide-container {
+                page-break-after: always;
+                page-break-inside: avoid;
+                margin: 0;
+                box-shadow: none;
+                border-radius: 0;
+                height: 100vh;
+                width: 100vw;
+            }
+            .slide-container:last-child {
+                page-break-after: auto;
+            }
+        }
+    </style>
+    <script>
+        function handleImgError(img, fileName) {
+            const wrapper = img.parentElement;
+            img.style.display = 'none';
+            const fallback = document.createElement('div');
+            fallback.className = 'img-fallback';
+            fallback.style.display = 'flex';
+            fallback.innerHTML = `<i class="fa-solid fa-image" style="font-size: 48px; margin-bottom: 10px;"></i><span>画像: ${fileName}</span><span style="font-size: 12px; margin-top: 5px;">(プレビュー環境で読み込み中)</span>`;
+            wrapper.appendChild(fallback);
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Slide 1: Title -->
+    <div class="slide-container" id="slide1">
+        <div class="title-layout">
+            <div class="tag-row" style="justify-content: center;">
+                <span class="tag tag-blue">2026（令和8）年度</span>
+            </div>
+            <h1>第六自治会デジタル活用の改善提案</h1>
+            <p class="subtitle">自主防災・自治会運営に役立つデジタル活用のために</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Overview -->
+    <div class="slide-container" id="slide2">
+        <h2 class="slide-title">次世代の自治会コミュニケーション全体像</h2>
+        <div class="content-area">
+            <div class="tiled-content">
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-comments"></i></div>
+                    <h3>速報・交流 (BAND)</h3>
+                    <p>日常連絡、安否確認、出欠確認を「無制限・無料」で実現。</p>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-file-shield"></i></div>
+                    <h3>保管・作業 (Google)</h3>
+                    <p>規約、地図、総会資料を資産化。クラウドで同時編集。</p>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-bullhorn"></i></div>
+                    <h3>公式・広報 (BAND)</h3>
+                    <p>各種案内はBANDの公開掲示板を活用。管理の手間を軽減。</p>
+                </div>
+                
+            </div>
+            <p class="small-text">BANDとはグループコミュニケーションを効率化させるアプリです。　<a href="https://www.band.us/ja" target="_blank" style="color: #3b82f6;">https://www.band.us/ja</a></p>
+        </div>
+    </div>
+
+    <!-- Slide 3: Visualization -->
+    <div class="slide-container" id="slide_viz">
+        <h2 class="slide-title">デジタル・リアルのハイブリッド体制</h2>
+        <div class="content-area">
+            <div class="full-image-wrapper">
+                <img src="../images/Gemini_Generated_Image_z4tdaoz4tdaoz4td.png" 
+                     onerror="handleImgError(this, 'Gemini_Generated_Image_z4tdaoz4tdaoz4td.png')"
+                     alt="コミュニケーション全体像の図解">
+            </div>
+            <p style="margin-top: 20px; font-weight: bold;">第六自治会の現状に合わせ、デジタルとアナログを最適に組み合わせます。</p>
+        </div>
+    </div>
+
+    <!-- Slide 4: Benefits -->
+    <div class="slide-container" id="slide3">
+        <h2 class="slide-title">BANDを「活動の拠点」にするメリット</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="bullet-list">
+                    <ul>
+                        <li><i class="fa-solid fa-yen-sign"></i><strong>コストゼロ・制限ゼロ</strong><br><span style="font-size: 17px;">通数制限がなく、自治会費を圧迫しません。</span></li>
+                        <li><i class="fa-solid fa-calendar-check"></i><strong>カレンダー・出欠機能</strong><br><span style="font-size: 17px;">行事予定を一元管理。清掃活動の出欠も自動集計。</span></li>
+                        <li><i class="fa-solid fa-hashtag"></i><strong>情報のストック性</strong><br><span style="font-size: 17px;">ハッシュタグ（#回覧板 #防災）で過去情報を即検索。</span></li>
+                    </ul>
+                </div>
+                <div class="image-wrapper">
+                    <img src="../images/band-image01.png" 
+                         onerror="handleImgError(this, 'band-image01.png')"
+                         alt="BANDアプリの利用イメージ">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Privacy -->
+    <div class="slide-container" id="slide4">
+        <h2 class="slide-title">安心・安全な運用設計</h2>
+        <div class="content-area">
+            <div class="tiled-content">
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-user-lock"></i></div>
+                    <h3>プライベートとの分離</h3>
+                    <p>LINEと異なり「友だち」になる必要なし。自治会用の名前で参加可能。</p>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-comment-slash"></i></div>
+                    <h3>トラブル防止機能</h3>
+                    <p>管理者側で個別トークを制限可能。私的な連絡をシステムで防ぎます。</p>
+                </div>
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-moon"></i></div>
+                    <h3>通知設定の柔軟性</h3>
+                    <p>夜間の通知オフなど、個人の生活リズムを尊重した設定が可能です。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Approval -->
+    <div class="slide-container" id="slide5">
+        <h2 class="slide-title">厳格な「入会承認」と実名管理</h2>
+        <div class="content-area">
+            <div class="bullet-list" style="max-width: 900px;">
+                <ul>
+                    <li><i class="fa-solid fa-id-card"></i><strong>門番機能（参加承認制）</strong><br>申請時に「住所・氏名」の回答を必須化。管理者が名簿と照合。</li>
+                    <li><i class="fa-solid fa-user-check"></i><strong>実名登録の徹底</strong><br>ニックネーム禁止により発言の責任を明確化。部外者混入を抑止。</li>
+                    <li><i class="fa-solid fa-database"></i><strong>Google名簿連携</strong><br>Googleスプレッドシートで利用名簿を最新維持。転出処理も確実に。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Disaster Prevention -->
+    <div class="slide-container" id="slide6">
+        <h2 class="slide-title">防災・安否確認のデジタル化</h2>
+        <div class="content-area">
+            <div style="width: 100%; max-width: 900px; background: #f8fafc; padding: 40px; border-radius: 20px; border: 1px solid #e2e8f0;">
+                <div class="bullet-list">
+                    <h3 style="font-size: 28px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
+                        <i class="fa-solid fa-shield-heart" style="position: static; font-size: 32px;"></i>
+                        進化する安否確認
+                    </h3>
+                    <p>Googleフォームは回答を「待つ」だけ。BANDは未回答者を特定し、即座に「再通知」が可能です。</p>
+                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 40px 0;">
+                    <h3 style="font-size: 28px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
+                        <i class="fa-solid fa-tower-broadcast" style="position: static; font-size: 32px;"></i>
+                        一斉安否報告の仕組み
+                    </h3>
+                    <p>災害発生時、タップひとつで回答。リアルタイムに集計・共有が可能です。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Google Workspace Reform -->
+    <div class="slide-container" id="slide8">
+        <h2 class="slide-title">Google Workspace による運営改革</h2>
+        <div class="content-area">
+            <div class="tiled-content">
+                <div class="tile">
+                    <div class="icon" style="color: #4285F4;"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <h3>書類のデジタル化</h3>
+                    <p>規約、過去の議事録、地図などをクラウドで一括管理。いつでもどこでも閲覧可能に。</p>
+                </div>
+                <div class="tile">
+                    <div class="icon" style="color: #34A853;"><i class="fa-solid fa-file-export"></i></div>
+                    <h3>スムーズな次年度引継ぎ</h3>
+                    <p>USBメモリの受け渡しや紙資料の山は不要。アカウントを共有するだけで確実に継承。</p>
+                </div>
+                <div class="tile">
+                    <div class="icon" style="color: #FBBC05;"><i class="fa-solid fa-user-gear"></i></div>
+                    <h3>役員の仕事負担を軽減</h3>
+                    <p>共同編集機能により、集まらなくても資料作成が可能。役員のなり手不足解消へ。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Recruitment of Supporters -->
+    <div class="slide-container" id="slide9">
+        <h2 class="slide-title">デジタル活用サポーター募集</h2>
+        <div class="content-area">
+            <div style="width: 100%; max-width: 900px; background: #f0fdf4; padding: 50px; border-radius: 24px; border: 2px dashed #16a34a; text-align: center;">
+                <div class="icon" style="color: #16a34a; font-size: 64px; margin-bottom: 30px;"><i class="fa-solid fa-handshake-angle"></i></div>
+                <h3 style="font-size: 24px; color: #166534; margin-bottom: 25px;">デジタル活動をご一緒いっしょに</h3>
+                <p style="font-size: 18px; color: #15803d; line-height: 1.8; margin-bottom: 25px;">
+                    自治会活動に役立つデジタル活用を、<br>無理のない範囲で一緒に進めていただける方を募集します。
+                </p>
+                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px;">
+                    <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); flex: 1;">
+                        <strong>こんな方を歓迎！</strong><br>スマホ操作が得意、ITに興味がある、</br>地域で活動したい
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); flex: 1;">
+                        <strong>主な活動</strong><br>アプリ設定の補助、資料作成のサポート、<br>活用案の提案
+                    </div>
+                </div>
+                <p style="margin-top: 30px; font-weight: bold; color: #166534;">ご興味のある方は、役員へお声がけください！</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
